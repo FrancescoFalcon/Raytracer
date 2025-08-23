@@ -1,0 +1,18 @@
+# Build artifacts
+*.o
+raytracer
+raytracer.exe
+
+# Generated outputs
+/ppms/
+/renders/
+*.ppm
+
+# Archives
+/consegna_*.zip
+
+# Editors/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
