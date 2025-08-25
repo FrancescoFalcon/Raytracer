@@ -26,12 +26,26 @@ function Resolve-ScenePath {
 	throw "Scene file not found: $Path"
 }
 
+function Ensure-MinGWPath {
+	$mingw = 'C:\msys64\mingw64\bin'
+	if (Test-Path $mingw) {
+		if (-not ($env:Path -split ';' | Where-Object { $_ -ieq $mingw })) {
+			$env:Path = "$mingw;$env:Path"
+			Write-Host "PATH aggiornato con $mingw"
+		}
+	}
+}
+
 try {
 	$scenePath = Resolve-ScenePath -Path $Scene
 	Ensure-Dirs -Paths @("$PSScriptRoot/ppms", "$PSScriptRoot/renders")
 
 	$renderScript = Join-Path $PSScriptRoot 'scripts/render.ps1'
-	if (Test-Path $renderScript -PathType Leaf -and ((Get-Item $renderScript).Length -gt 0)) {
+	$hasRender = Test-Path $renderScript -PathType Leaf
+	$renderNonEmpty = $false
+	if ($hasRender) { $renderNonEmpty = ((Get-Item $renderScript).Length -gt 0) }
+	if ($hasRender -and $renderNonEmpty) {
+		Ensure-MinGWPath
 		& $renderScript -ScenePath $scenePath -Width $Width -Height $Height
 		exit $LASTEXITCODE
 	}
@@ -48,6 +62,7 @@ try {
 	$ts = Get-Date -Format 'yyyyMMdd_HHmmss'
 	$ppm = Join-Path $PSScriptRoot ("ppms/{0}-{1}-{2}.ppm" -f $base,$stamp,$ts)
 
+	Ensure-MinGWPath
 	Write-Host "Running: $($exe) $scenePath $ppm $Width $Height"
 	& $exe $scenePath $ppm $Width $Height
 	if ($LASTEXITCODE -ne 0) { throw "raytracer.exe exited with code $LASTEXITCODE" }

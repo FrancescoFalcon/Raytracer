@@ -24,11 +24,22 @@ function Resolve-Exe {
 	throw 'raytracer.exe non trovato. Compila con mingw32-make (vedi README).'
 }
 
+function Ensure-MinGWPath {
+	$mingw = 'C:\msys64\mingw64\bin'
+	if (Test-Path $mingw) {
+		if (-not ($env:Path -split ';' | Where-Object { $_ -ieq $mingw })) {
+			$env:Path = "$mingw;$env:Path"
+			Write-Host "PATH aggiornato con $mingw"
+		}
+	}
+}
+
 try {
 	$scene = if (Test-Path $ScenePath) { (Resolve-Path $ScenePath).Path } else { throw "Scene non trovata: $ScenePath" }
 	Ensure-Dirs -Paths @("$PSScriptRoot/../ppms", "$PSScriptRoot/../renders")
 
 	$exe = Resolve-Exe
+	Ensure-MinGWPath
 	$base = [IO.Path]::GetFileNameWithoutExtension($scene)
 	$stamp = "{0}x{1}" -f $Width,$Height
 	$ts = Get-Date -Format 'yyyyMMdd_HHmmss'
