@@ -4,8 +4,6 @@ Francesco Falcon Sm3201408
 
 Raytracer in C (ray casting di sfere) con OpenMP e output PPM (P6) scritto via memory mapping.
 
-Studente: [Nome Cognome] — Matricola: [XXXXX]
-
 Questo progetto implementa esattamente quanto richiesto dal compito (PDF/screenshot):
 - Linguaggio C (C99), aritmetica in precisione singola (`float`).
 - Parser testuale del file di scena nel formato indicato.
