@@ -15,6 +15,9 @@ Francesco Falcon Sm3201408
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+#include <ctype.h>
+#include <limits.h>
 #include <omp.h>
 
 #include "scene.h"
@@ -31,9 +34,18 @@ int main(int argc, char** argv){
     }
     const char* scenePath = argv[1];
     const char* outPath = argv[2];
-    int width = atoi(argv[3]);
-    int height = atoi(argv[4]);
-    if(width<=0 || height<=0){ fprintf(stderr, "Dimensioni invalide\n"); return 2; }
+    // Parse width/height robustly with strtol
+    char *end1=NULL, *end2=NULL; errno = 0;
+    long w = strtol(argv[3], &end1, 10);
+    while(end1 && *end1 && isspace((unsigned char)*end1)) end1++;
+    long h = strtol(argv[4], &end2, 10);
+    while(end2 && *end2 && isspace((unsigned char)*end2)) end2++;
+    if (errno==ERANGE || w<=0 || h<=0 || w>INT_MAX || h>INT_MAX || (end1 && *end1!='\0') || (end2 && *end2!='\0')){
+        fprintf(stderr, "Dimensioni invalide\n");
+        return 2;
+    }
+    int width = (int)w;
+    int height = (int)h;
 
     scene S; int rc = scene_load(scenePath, &S);
     if(rc!=0){ fprintf(stderr, "Errore caricando la scena (%d)\n", rc); return 3; }
