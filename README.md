@@ -27,13 +27,13 @@ Indice
 - Note per la consegna
 
 ## Requisiti del compito e copertura
-- C99 e `float` per tutta la matematica. ✅
-- Parser scena con `fscanf` e formato richiesto. ✅
-- Ray casting sfere, nessuna illuminazione/ombre avanzate. ✅
-- Parallelizzazione con OpenMP. ✅
-- Salvataggio PPM (P6) via memoria mappata. ✅
-- Makefile fornito. ✅
-- Commenti chiari nei sorgenti (intestazione con Nome/Cognome/Matricola da completare). ✅
+- C99 e `float` per tutta la matematica. 
+- Parser scena con `fscanf` e formato richiesto. 
+- Ray casting sfere, nessuna illuminazione/ombre avanzate. 
+- Parallelizzazione con OpenMP. 
+- Salvataggio PPM (P6) via memoria mappata. 
+- Makefile fornito. 
+- Commenti chiari nei sorgenti (intestazione con Nome/Cognome/Matricola da completare). 
 
 ## Struttura del progetto
 - `main.c` — Entry point: parsing CLI, caricamento scena, render parallelo, scrittura PPM.
