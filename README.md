@@ -36,10 +36,13 @@ Indice
 - Commenti chiari nei sorgenti (intestazione con Nome/Cognome/Matricola da completare). 
 
 ## Struttura del progetto
+Contenuti del .zip:
 - `main.c` — Entry point: parsing CLI, caricamento scena, render parallelo, scrittura PPM.
 - `scene.h/.c` — Tipi (viewport, sphere, scene) e funzioni: parser, intersezione raggio–sfera, colore pixel.
 - `ppm.h/.c` — Writer PPM (P6) con memoria mappata (Windows/Posix).
 - `Makefile` — Regole di build (`-fopenmp`).
+
+Contenuti aggiuntivi della repo:
 - `scenes/` — File di scena di esempio (incluso `scene_pdf_example.txt`).
 - `ppms/` — Output PPM generati (runtime; non richiesti in consegna).
 - `renders/` — PNG ricavati dai PPM (runtime; opzionale).
@@ -74,7 +77,7 @@ S 1 0 1 0.25 0 0 165
 S -35 0 100 20 127 127 127
 S -100 0 10000 3000 255 255 0
 
-Il repository include `scenes/scene_pdf_example.txt` con il contenuto coerente.
+La repository include `scenes/scene_pdf_example.txt` con il contenuto coerente.
 
 ## Modello geometrico e intersezioni (riassunto)
 - Camera in `(0,0,0)`.
@@ -129,7 +132,7 @@ Conversione opzionale a PNG (ImageMagick):
 
 "C:\\Program Files\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe" .\\ppms\\example.ppm .\\renders\\example.png
 
-## Script di supporto (facoltativi)
+## Script di supporto (trovati nella repo)
 - `scripts/render.ps1` — Render di una scena nelle cartelle corrette (`ppms/`, `renders/`).
 - `scripts/render-all.ps1` — Render batch di tutte le scene in `scenes/`.
 - `scripts/cleanup-scenes.ps1` — Riordina eventuali file scena finiti per errore nella root.
@@ -155,10 +158,6 @@ Esempio rapido (PowerShell):
 - Eseguibile non parte fuori da MSYS2: l’eseguibile è MinGW; eseguirlo dalla shell MSYS2 o assicurarsi che le DLL richieste siano nel PATH.
 - PPM non visualizzabile: usare un viewer che supporti P6 o convertire con ImageMagick.
 
-## Note per la consegna
-- Compilare in testa ai file: Nome, Cognome, Matricola.
-- Consegnare i soli sorgenti e `Makefile` se richiesto; `scenes/`, `ppms/`, `renders/`, `scripts/` sono utili ma non obbligatori.
-- Pulizia artefatti (facoltativa): `make clean` e rimozione delle cartelle di output.
 
 ## Build
 
