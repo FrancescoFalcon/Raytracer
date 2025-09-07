@@ -178,10 +178,4 @@ Esempio rapido (PowerShell):
 - Eseguibile non parte fuori da MSYS2: l’eseguibile è MinGW; eseguirlo dalla shell MSYS2 o assicurarsi che le DLL richieste siano nel PATH.
 - PPM non visualizzabile: usare un viewer che supporti P6 o convertire con ImageMagick.
 
-## Note per la consegna
-- Consegnare i soli sorgenti minimi richiesti: `main.c`, `scene.c`, `scene.h`, `ppm.c`, `ppm.h`, `Makefile`, ed eventualmente un file scena di esempio (`scenes/scene_pdf_example.txt`).
-- Non includere file binari generati (`raytracer(.exe)`, `*.o`, `ppms/`, `renders/`, `raytracer.zip`).
-- Il progetto deve compilare con `mingw32-make` su MSYS2/MinGW (Windows) usando i flag presenti nel `Makefile` (C99, OpenMP). Su Linux, `make` con `build-essential libomp-dev`.
-- Facoltativo: includere questo README per istruire rapidamente alla correzione.
-
-Note: le sezioni "Compilazione" e "Esecuzione" sopra contengono tutti i dettagli; non sono necessari duplicati.
+.
