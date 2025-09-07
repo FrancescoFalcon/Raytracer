@@ -153,9 +153,7 @@ Conversione opzionale a PNG (ImageMagick):
 ## Script di supporto (trovati nella repo)
 - `RUN.ps1` — Runner rapido: usa automaticamente `scripts/render.ps1` quando presente, crea le cartelle output.
 - `scripts/render.ps1` — Render di una scena nelle cartelle corrette (`ppms/`, `renders/`).
-- `scripts/render-all.ps1` — Render batch di tutte le scene in `scenes/`.
 - `scripts/cleanup-scenes.ps1` — Riordina eventuali file scena finiti per errore nella root.
-- `scripts/package.ps1` — Crea ZIP di consegna (minimo richiesto o con README).
 
 Esempio rapido (PowerShell):
 
