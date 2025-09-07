@@ -37,7 +37,6 @@ Indice
 - Parallelizzazione con OpenMP. 
 - Salvataggio PPM (P6) via memoria mappata. 
 - Makefile fornito. 
-- Commenti chiari nei sorgenti (intestazione con Nome/Cognome/Matricola da completare). 
 
 ## Struttura del progetto
 Contenuti del .zip:
