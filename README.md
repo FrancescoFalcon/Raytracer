@@ -12,6 +12,10 @@ Questo progetto implementa esattamente quanto richiesto dal compito (PDF/screens
 - Scrittura dell’immagine nel formato PPM binario (P6) tramite memoria mappata.
 - Build tramite `Makefile`.
 
+## Quick start
+- Se hai già compilato: su Windows apri PowerShell nella root del progetto e lancia `./RUN.ps1 -Width 320 -Height 180` per generare un PPM e (se disponibile) un PNG nelle cartelle `ppms/` e `renders/`.
+- Altrimenti, segui la sezione "Compilazione" (MSYS2/MinGW su Windows, oppure WSL/Ubuntu) e poi esegui.
+
 Indice
 - Requisiti del compito e copertura
 - Struttura del progetto
@@ -112,12 +116,14 @@ winget install -e --id MSYS2.MSYS2 --accept-package-agreements --accept-source-a
 
 "C:\\msys64\\usr\\bin\\bash.exe" -lc "cd /c/Users/susid/OneDrive/Desktop/skuola/Raytracer && PATH=/mingw64/bin:$PATH mingw32-make -j"
 
-Artefatto: `raytracer` (eseguibile nella root del progetto).
+Artefatto: `raytracer` (eseguibile nella root del progetto; su Windows il file sarà `raytracer.exe`).
+Pulizia: "C:\\msys64\\usr\\bin\\bash.exe" -lc "cd /c/Users/susid/OneDrive/Desktop/skuola/Raytracer && mingw32-make clean"
 
 ### WSL/Ubuntu (alternativa)
 
 sudo apt update && sudo apt install -y build-essential libomp-dev
 make -j
+make clean  # (opzionale) pulisce i .o e l'eseguibile
 
 ## Esecuzione ed esempi
 Sintassi:
@@ -128,11 +134,25 @@ Esempio (MSYS2, usa la scena inclusa):
 
 "C:\\msys64\\usr\\bin\\bash.exe" -lc "cd /c/Users/susid/OneDrive/Desktop/skuola/Raytracer && PATH=/mingw64/bin:$PATH ./raytracer ./scenes/scene_pdf_example.txt ./ppms/example.ppm 1280 720"
 
+Esecuzione rapida (PowerShell) con lo script incluso:
+
+./RUN.ps1 -Width 640 -Height 360
+
+Esecuzione diretta (PowerShell, senza script):
+
+```powershell
+mkdir .\ppms -Force
+.\raytracer.exe .\scenes\scene_pdf_example.txt .\ppms\example.ppm 640 360
+```
+
+Nota: se dovessero mancare DLL, aggiungere `C:\msys64\mingw64\bin` al PATH oppure eseguire dalla shell MSYS2.
+
 Conversione opzionale a PNG (ImageMagick):
 
 "C:\\Program Files\\ImageMagick-7.1.1-Q16-HDRI\\magick.exe" .\\ppms\\example.ppm .\\renders\\example.png
 
 ## Script di supporto (trovati nella repo)
+- `RUN.ps1` — Runner rapido: usa automaticamente `scripts/render.ps1` quando presente, crea le cartelle output.
 - `scripts/render.ps1` — Render di una scena nelle cartelle corrette (`ppms/`, `renders/`).
 - `scripts/render-all.ps1` — Render batch di tutte le scene in `scenes/`.
 - `scripts/cleanup-scenes.ps1` — Riordina eventuali file scena finiti per errore nella root.
@@ -158,20 +178,10 @@ Esempio rapido (PowerShell):
 - Eseguibile non parte fuori da MSYS2: l’eseguibile è MinGW; eseguirlo dalla shell MSYS2 o assicurarsi che le DLL richieste siano nel PATH.
 - PPM non visualizzabile: usare un viewer che supporti P6 o convertire con ImageMagick.
 
+## Note per la consegna
+- Consegnare i soli sorgenti minimi richiesti: `main.c`, `scene.c`, `scene.h`, `ppm.c`, `ppm.h`, `Makefile`, ed eventualmente un file scena di esempio (`scenes/scene_pdf_example.txt`).
+- Non includere file binari generati (`raytracer(.exe)`, `*.o`, `ppms/`, `renders/`, `raytracer.zip`).
+- Il progetto deve compilare con `mingw32-make` su MSYS2/MinGW (Windows) usando i flag presenti nel `Makefile` (C99, OpenMP). Su Linux, `make` con `build-essential libomp-dev`.
+- Facoltativo: includere questo README per istruire rapidamente alla correzione.
 
-## Build
-
-- Windows (MSYS2/MinGW):
-  - pacman: mingw-w64-x86_64-gcc, mingw-w64-x86_64-make
-  - PATH=/mingw64/bin:$PATH
-  - mingw32-make
-
-- Linux:
-  - sudo apt install build-essential libomp-dev
-  - make
-
-## Uso
-
-./raytracer <scene.txt> <out.ppm> <width> <height>
-
-Formato scena: VP x y z; BG R G B; OBJ_N n; S cx cy cz r R G B (ripetuto n volte).
+Note: le sezioni "Compilazione" e "Esecuzione" sopra contengono tutti i dettagli; non sono necessari duplicati.
