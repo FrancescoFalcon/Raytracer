@@ -16,6 +16,8 @@ Francesco Falcon Sm3201408
 #include <unistd.h>
 #endif
 
+// Costruisce l'header PPM (P6) in formato testuale:
+// P6\n<width> <height>\n255\n
 static size_t ppm_header(char* buf, size_t buflen, int w, int h){
     return (size_t)snprintf(buf, buflen, "P6\n%d %d\n255\n", w, h);
 }
@@ -28,6 +30,7 @@ int ppm_write_mmap(const char* path, int width, int height, const rgb24* data){
     const size_t pixBytes = (size_t)width * (size_t)height * 3u;
     const size_t total = hlen + pixBytes;
 
+// Implementazione piattaforma-specifica della scrittura tramite memoria mappata.
 #ifdef _WIN32
     HANDLE hFile = CreateFileA(path, GENERIC_WRITE|GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if(hFile==INVALID_HANDLE_VALUE){ fprintf(stderr, "CreateFile fallita\n"); return 2; }
@@ -39,6 +42,7 @@ int ppm_write_mmap(const char* path, int width, int height, const rgb24* data){
     unsigned char* mem = (unsigned char*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if(!mem){ fprintf(stderr, "MapViewOfFile fallita\n"); CloseHandle(hMap); CloseHandle(hFile); return 5; }
 
+    // Copia header + pixel nella vista mappata
     memcpy(mem, header, hlen);
     memcpy(mem+hlen, data, pixBytes);
 
@@ -53,6 +57,7 @@ int ppm_write_mmap(const char* path, int width, int height, const rgb24* data){
     unsigned char* mem = (unsigned char*)mmap(NULL, total, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
     if(mem==MAP_FAILED){ perror("mmap ppm"); close(fd); return 4; }
 
+    // Copia header + pixel nella mappa
     memcpy(mem, header, hlen);
     memcpy(mem+hlen, data, pixBytes);
 
